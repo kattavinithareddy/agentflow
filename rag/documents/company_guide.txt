@@ -1,0 +1,28 @@
+AgentFlow Company Guide
+
+AgentFlow is an AI engineering assistant designed to help developers
+understand technical documentation, solve engineering questions, and
+retrieve information from a private knowledge base.
+
+The system uses LangGraph to orchestrate AI agents.
+
+The RAG pipeline retrieves relevant information from documents before
+generating an answer.
+
+The vector database used by AgentFlow is ChromaDB.
+
+Gemini is used as the language model.
+
+FastAPI exposes the backend API.
+
+The frontend will provide a chat interface for users.
+
+AgentFlow is designed to demonstrate retrieval augmented generation,
+agent orchestration, tool usage, and production-oriented AI engineering.
+
+The RAG system converts documents into smaller chunks, creates vector
+embeddings for those chunks, stores the vectors in ChromaDB, and retrieves
+the most relevant chunks when a user asks a question.
+
+The retrieved context is then provided to the language model so that the
+answer can be grounded in the available documents.

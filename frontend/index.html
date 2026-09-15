@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AgentFlow</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <div class="app">
+
+        <header class="header">
+            <div>
+                <h1>AgentFlow</h1>
+                <p>AI Engineering Assistant</p>
+            </div>
+
+            <div class="status">
+                <span class="status-dot"></span>
+                Online
+            </div>
+        </header>
+
+
+        <main class="chat-container">
+
+            <div id="messages" class="messages">
+
+                <div class="message assistant">
+
+                    <div class="avatar">AI</div>
+
+                    <div class="bubble">
+                        <strong>AgentFlow</strong>
+
+                        <p>
+                            Hello! I'm AgentFlow. Ask me a question about
+                            technical documentation, programming, or anything
+                            else you'd like to explore.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="input-area">
+
+                <textarea
+                    id="question"
+                    placeholder="Ask AgentFlow something..."
+                    rows="1"
+                ></textarea>
+
+                <button id="sendButton">
+                    Send
+                </button>
+
+            </div>
+
+            <p class="hint">
+                RAG · Web Search · Direct Reasoning · MCP Tools
+            </p>
+
+        </main>
+
+    </div>
+
+
+    <script src="/static/script.js"></script>
+
+</body>
+</html>
