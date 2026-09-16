@@ -1,104 +1,53 @@
-\# AgentFlow
+# AgentFlow
 
+AI Engineering Assistant built with LangGraph, RAG, MCP, FastAPI, Docker, and Google Gemini.
 
+AgentFlow is a multi-route AI assistant that intelligently decides how to handle a user's question. Depending on the request, it can use a private knowledge base with RAG, perform web search, call an MCP calculator tool, or answer directly using an LLM.
 
-> AI Engineering Assistant built with LangGraph, RAG, MCP tools, web search, FastAPI, and Gemini.
+## 🚀 Live Demo
 
+https://agentflow-uwon.onrender.com
 
+## ✨ Features
 
-AgentFlow is an AI engineering assistant that intelligently routes user questions to the most appropriate capability:
+- Intelligent query routing using LangGraph
+- Retrieval-Augmented Generation (RAG)
+- ChromaDB vector database
+- Gemini Embedding 001 for document embeddings
+- Web search using Tavily
+- MCP-based calculator tool
+- Direct LLM reasoning
+- FastAPI backend
+- Dockerized application
+- Deployed on Render
+- Browser-based chat interface
 
-
-
-\- 🔍 \*\*RAG\*\* — retrieves information from a private knowledge base
-
-\- 🌐 \*\*Web Search\*\* — retrieves current external information
-
-\- ⚙️ \*\*MCP Calculator\*\* — performs mathematical calculations through an MCP tool
-
-\- ✨ \*\*Direct Reasoning\*\* — handles general programming, technical, and reasoning questions
-
-
-
-The project demonstrates practical AI engineering concepts including agent orchestration, retrieval-augmented generation, tool integration, API development, testing, and Dockerization.
-
-
-
-\---
-
-
-
-\## Architecture
-
-
+## 🏗️ Architecture
 
 ```text
-
-&#x20;                        ┌──────────────────────┐
-
-&#x20;                        │      User Query      │
-
-&#x20;                        └──────────┬───────────┘
-
-&#x20;                                   │
-
-&#x20;                                   ▼
-
-&#x20;                        ┌──────────────────────┐
-
-&#x20;                        │   LangGraph Router   │
-
-&#x20;                        └──────────┬───────────┘
-
-&#x20;                                   │
-
-&#x20;             ┌─────────────────────┼─────────────────────┐
-
-&#x20;             │                     │                     │
-
-&#x20;             ▼                     ▼                     ▼
-
-&#x20;       ┌───────────┐         ┌───────────┐        ┌───────────┐
-
-&#x20;       │    RAG    │         │    Web    │        │    MCP    │
-
-&#x20;       │ Knowledge │         │  Search   │        │ Calculator│
-
-&#x20;       └─────┬─────┘         └─────┬─────┘        └─────┬─────┘
-
-&#x20;             │                     │                     │
-
-&#x20;             └─────────────────────┼─────────────────────┘
-
-&#x20;                                   │
-
-&#x20;                                   ▼
-
-&#x20;                        ┌──────────────────────┐
-
-&#x20;                        │    Answer Generator  │
-
-&#x20;                        │       Gemini         │
-
-&#x20;                        └──────────┬───────────┘
-
-&#x20;                                   │
-
-&#x20;                                   ▼
-
-&#x20;                        ┌──────────────────────┐
-
-&#x20;                        │     FastAPI API      │
-
-&#x20;                        └──────────┬───────────┘
-
-&#x20;                                   │
-
-&#x20;                                   ▼
-
-&#x20;                        ┌──────────────────────┐
-
-&#x20;                        │    Web Frontend      │
-
-&#x20;                        └──────────────────────┘
-
+                         User
+                          │
+                          ▼
+                  AgentFlow Frontend
+                          │
+                          ▼
+                    FastAPI /chat
+                          │
+                          ▼
+                    LangGraph Router
+                          │
+        ┌─────────────────┼──────────────────┐
+        │                 │                  │
+        ▼                 ▼                  ▼
+       RAG              Web Search           MCP
+        │                 │                  │
+        ▼                 ▼                  ▼
+   ChromaDB             Tavily         Calculator Tool
+        │                 │                  │
+        └─────────────────┴──────────────────┘
+                          │
+                          ▼
+                    Gemini LLM
+                          │
+                          ▼
+                    Final Answer

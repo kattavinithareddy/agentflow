@@ -20,7 +20,6 @@ app = FastAPI(
 
 
 class ChatRequest(BaseModel):
-
     question: str = Field(
         ...,
         min_length=1,
@@ -30,7 +29,6 @@ class ChatRequest(BaseModel):
 
 
 class ChatResponse(BaseModel):
-
     answer: str
     route: str
 
@@ -44,7 +42,6 @@ app.mount(
 
 @app.get("/")
 def serve_frontend():
-
     return FileResponse(
         FRONTEND_DIR / "index.html"
     )
@@ -52,7 +49,6 @@ def serve_frontend():
 
 @app.get("/health")
 def health_check():
-
     return {
         "status": "ok",
         "service": "AgentFlow"
@@ -66,6 +62,7 @@ def health_check():
 def chat(request: ChatRequest):
 
     try:
+        print(f"Received question: {request.question}")
 
         result = graph.invoke({
             "question": request.question.strip(),
@@ -74,42 +71,36 @@ def chat(request: ChatRequest):
             "answer": ""
         })
 
+        print(f"Graph completed. Route: {result.get('route')}")
 
-        answer = result.get(
-            "answer",
-            ""
-        )
-
+        answer = result.get("answer", "")
 
         # Gemini may return structured content blocks.
         if isinstance(answer, list):
-
             text_parts = []
 
             for item in answer:
+                if isinstance(item, dict):
+                    if item.get("type") == "text":
+                        text_parts.append(
+                            item.get("text", "")
+                        )
 
-                if (
-                    isinstance(item, dict)
-                    and item.get("type") == "text"
-                ):
+            answer = "\n".join(text_parts)
 
-                    text_parts.append(
-                        item.get("text", "")
-                    )
+        # Safety fallback for other structured response formats.
+        if not isinstance(answer, str):
+            answer = str(answer)
 
+        answer = answer.strip()
 
-            answer = "\n".join(
-                text_parts
-            )
-
+        print(f"Final answer: {answer}")
 
         if not answer:
-
             raise HTTPException(
                 status_code=500,
                 detail="AgentFlow returned an empty response."
             )
-
 
         return {
             "answer": answer,
@@ -119,16 +110,13 @@ def chat(request: ChatRequest):
             )
         }
 
-
     except HTTPException:
-
         raise
-
 
     except Exception as error:
 
         print(
-            f"AgentFlow error: {error}"
+            f"AgentFlow error: {type(error).__name__}: {error}"
         )
 
         raise HTTPException(
